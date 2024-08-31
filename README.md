@@ -1,5 +1,5 @@
 
-# Project Name
+# Orbital test project
 
 This project contains two microservices: `accounts-service` and `reporting-service`. Both services are built using the Serverless Framework, TypeScript, and Mongoose.
 
@@ -74,6 +74,9 @@ npm run test
 ```
 
 This will execute the test suite for the services.
+
+## Note
+> The project supports two stages - `dev` and `production`. Both have CI/CD pipelines setup for branches  `main` and `production`, respectively.
 
 ## Additional Information
 
