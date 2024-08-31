@@ -85,8 +85,6 @@ This will execute the test suite for the services.
 - **AWS Eventbridge**: Relays events published by `accounts-service` to be listened by other services. In this case only `createTransaction` event 
   is listened by `reporting-service`
 
-For more detailed documentation on each service, refer to the respective directories.
-
 
 # API Documentation
 
