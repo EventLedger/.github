@@ -143,4 +143,62 @@ Currently the services are deployed on AWS lambda with the following URLs
 1. **Get monthly statements**  
    **Endpoint:** `POST /dev/statements/{accountId}/{year}/{monthy}/`
    Example: `GET /dev/transactions/66d21c4913c5b942cdb00451/2024/08`
+
+
+# Architectural Decisions
+
+## Technical Decisions
+
+1. **Using TypeScript**  
+   TypeScript is used for its strong typing capabilities, which enhances code quality, reduces runtime errors, and improves overall maintainability by providing robust tooling and autocomplete features.
+
+2. **Using Class Validators for API Request Validation and DTOs**  
+   Class Validators were used to ensure that all incoming API requests are validated against predefined rules, making our data transfer objects (DTOs) reliable and safeguarding against invalid data inputs.
+
+3. **Using Two Stages: Development and Production**  
+   The project is structured to support both development and production environments. This allows for a clear separation between testing and live environments, ensuring that changes can be tested thoroughly before being deployed to production.
+
+## Product Decisions
+
+1. **Balance Management in Accounts**  
+   The architecture enforces that the `balances` field in accounts cannot be directly updated or created. Instead, balances are modified exclusively through the creation of transactions, ensuring that all changes to account balances are traceable and follow the correct business logic.
+
+2. **Currency Support Enforcement**  
+   The supported currencies within the framework are enforced via a global variable in the `accounts-service`. To use a currency in `account.currencies`, it must first be added to this global list, ensuring consistency and preventing the use of unsupported currencies across the system.
+
+## Scalability Considerations
+
+As the project grows and handles higher volumes of transactions and accounts, several strategies can be employed to ensure the system remains performant and reliable.
+
+### 1. **Event-Driven Architecture with AWS EventBridge**
+
+We are already leveraging AWS EventBridge to handle data interactions between the `accounts-service` and `reporting-service`. This event-driven architecture allows the system to decouple services, enabling each service to scale independently and react to events in real-time. As the volume of transactions increases, EventBridge can handle high throughput, ensuring reliable event delivery and processing without direct service-to-service communication.
+
+### 2. **Database Sharding and Partitioning**
+
+To manage large volumes of data, sharding or partitioning the database can be implemented. This involves splitting the data across multiple databases or tables based on criteria like account ID or geographic region, reducing the load on individual database instances and improving query performance.
+
+### 3. **Asynchronous Processing with Queues**
+
+For high volumes of transactions, implementing asynchronous processing using message queues (e.g., AWS SQS) in conjunction with EventBridge can help distribute the workload. Transactions can be processed in the background, allowing the system to handle large bursts of activity without overwhelming the backend services.
+
+### 4. **Caching Frequently Accessed Data**
+
+Implementing caching mechanisms, such as using Redis or Memcached, can significantly reduce the load on the database by storing frequently accessed data in memory. This is particularly useful for read-heavy operations, such as retrieving account details or transaction histories.
+
+### 5. **Optimizing Database Queries**
+
+As the volume of data grows, optimizing database queries becomes crucial. This can include creating indexes on frequently queried fields, using query optimizers, and avoiding expensive operations like full table scans. Additionally, database read replicas can be used to distribute read operations and reduce the load on the primary database.
+
+### 6. **Rate Limiting and Throttling**
+
+To prevent the system from being overwhelmed by excessive requests, rate limiting and throttling mechanisms can be implemented on services or on the lambda function level. This ensures that the system can handle high traffic without degrading performance, by controlling the number of requests each user or service can make within a specified time frame.
+
+### 8. **Microservices Architecture**
+
+Adopting a microservices architecture allows for each service (e.g., accounts and transactions) to be scaled independently based on demand. This modular approach also makes it easier to update or optimize individual services without affecting the entire system.
+
+### 10. **Using Serverless layers**
+
+To ensure uniformity and reduce code repetition it is advised to use Layers for common files in both services like `Events` or `valdiationMiddleware`. To make it more seamless, a third party middleware service might be used to ensure seamless integration and more proper error handling. 
    
