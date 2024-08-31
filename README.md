@@ -82,6 +82,8 @@ This will execute the test suite for the services.
 
 - **Accounts Service**: Manages bank accounts, balances, and transactions, and publishes events to AWS EventBridge.
 - **Reporting Service**: Listens to transaction events and generates monthly statements.
+- **AWS Eventbridge**: Relays events published by `accounts-service` to be listened by other services. In this case only `createTransaction` event 
+  is listened by `reporting-service`
 
 For more detailed documentation on each service, refer to the respective directories.
 
