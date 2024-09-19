@@ -88,10 +88,6 @@ This will execute the test suite for the services.
 
 # API Documentation
 
-Currently the services are deployed on AWS lambda with the following URLs
-1. **Accounts service**: `https://2sm6p2g9o0.execute-api.eu-north-1.amazonaws.com`
-2. **Reporting service**: `https://wvse1h39pa.execute-api.eu-north-1.amazonaws.com`
-
 ## Accounts Service
 > Note: Currencies can only be added from the list of supported currencies in accounts-services/constants/currencies.ts
 
