@@ -1,5 +1,5 @@
 
-# Orbital test project
+# EventLedger
 
 This project contains two microservices: `accounts-service` and `reporting-service`. Both services are built using the Serverless Framework, TypeScript, and Mongoose.
 
