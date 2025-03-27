@@ -1,7 +1,7 @@
 
 # EventLedger
 
-This project contains two microservices: `accounts-service` and `reporting-service`. Both services are built using the Serverless Framework, TypeScript, and Mongoose.
+This project contains two microservices: [accounts-service](https://github.com/EventLedger/accounts-service) and [reporting-service](https://github.com/EventLedger/reporting-service). Both services are built using the Serverless Framework, TypeScript, and Mongoose.
 
 ## Getting Started
 
